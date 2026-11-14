@@ -1,0 +1,4 @@
+const toggle=document.querySelector(".menu-toggle"),nav=document.querySelector(".nav");
+if(toggle&&nav){toggle.addEventListener("click",()=>{const open=nav.classList.toggle("open");toggle.setAttribute("aria-expanded",String(open));});nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("open");toggle.setAttribute("aria-expanded","false");}));}
+document.getElementById("year").textContent=new Date().getFullYear();
+const form=document.getElementById("quote-form");if(form){form.addEventListener("submit",e=>{e.preventDefault();const d=new FormData(form);const msg=["Olá! Gostaria de falar com a WOG COMPUTER.",`Nome: ${String(d.get("name")||"").trim()}`,d.get("company")?`Empresa: ${d.get("company")}`:"",`Assunto: ${d.get("interest")}`,d.get("message")?`Mensagem: ${d.get("message")}`:""].filter(Boolean).join("\n");window.open("https://wa.me/5527997589719?text="+encodeURIComponent(msg),"_blank","noopener");});}
