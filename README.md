@@ -1,5 +1,5 @@
 # WOG COMPUTER — versão 2
-Site institucional estático com fotos enviadas pelo cliente, logo (recortada para remover contatos antigos impressos na imagem), endereço, mapa e WhatsApp atualizado.
+Site institucional estático com fotos enviadas pelo cliente, logo atualizada, endereço, mapa e WhatsApp atualizado.
 
 ## Dados usados
 - WhatsApp: +55 27 99758-9719
