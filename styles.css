@@ -58,3 +58,40 @@
     height: 17px;
   }
 }
+
+/* WOG COMPUTER v2.2 - Ajuste dos ícones sociais */
+
+.nav .social-links-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.nav .social-links-header a {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--navy);
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.nav .social-links-header a svg {
+    width: 23px;
+    height: 23px;
+    display: block;
+}
+
+.nav .social-links-header a:hover {
+    background: #eaf5fc;
+    color: var(--blue);
+    border-color: var(--blue);
+    transform: translateY(-2px);
+}
