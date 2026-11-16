@@ -10,47 +10,75 @@
 @media(max-width:850px){.nav{gap:14px;font-size:11px}.hero-grid{gap:25px}.hero-visual{height:320px}.intro-grid,.contact-grid{gap:38px}.equipment-grid{gap:30px}}
 @media(max-width:680px){.container{width:calc(100% - 34px)}.site-header{height:70px}.brand img{width:42px;height:42px}.brand-name{font-size:12px}.menu-toggle{display:block;border:0;background:none;font-size:25px;color:var(--navy)}.nav{display:none;position:absolute;top:69px;left:0;right:0;background:white;padding:15px 22px 22px;box-shadow:0 15px 25px #102b4e1a;flex-direction:column;align-items:stretch;gap:0}.nav.open{display:flex}.nav a{padding:12px 3px;border-bottom:1px solid var(--line)}.nav .nav-cta{text-align:center;margin-top:10px}.hero-grid{display:block;padding:60px 0 35px}.hero-visual{height:260px;margin-top:35px}.hero h1{font-size:41px}.hero-copy>p{font-size:14px}.bottom-inner{font-size:7px;letter-spacing:.8px;gap:8px}.bottom-line{width:4%}.section{padding:68px 0}.intro-grid,.equipment-grid,.contact-grid{grid-template-columns:1fr;gap:25px}.section-heading{display:block}.section-heading>p{margin-top:17px}.service-grid{grid-template-columns:1fr}.service-card{min-height:0}.service-card p{min-height:0}.photo-grid{grid-template-columns:1fr 1fr;grid-template-rows:220px 160px}.photo-grid figure:first-child{grid-column:span 2;grid-row:auto}.equipment-grid{padding:60px 0}.equipment-image{height:220px;order:2}.steps{grid-template-columns:1fr 1fr;row-gap:22px}.contact{padding:65px 0}.contact-form{padding:22px 18px}.map-section{padding:60px 0}.map-heading{display:block}.map-heading .btn{margin-top:12px}.map-frame{height:280px}.footer-top{padding:26px 0;align-items:flex-start;flex-direction:column;gap:14px}.footer-bottom{padding:14px 0;align-items:flex-start;flex-direction:column;gap:6px}.whatsapp-float{right:14px;bottom:14px;width:49px;height:49px}}
 
-/* Redes sociais no cabeçalho */
-.nav .social-links-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex: 0 0 auto;
-  margin-left: 2px;
+/* Redes sociais no cabeçalho — estilos consolidados WOG COMPUTER v2.3.1 */
+header.site-header nav.nav .social-links-header {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-shrink: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: auto !important;
+  min-width: max-content !important;
+  margin: 0 0 0 2px !important;
+  padding: 0 !important;
+  border: 0 !important;
 }
 
-.nav .social-links-header a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
-  padding: 0;
-  margin: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: #fff;
-  color: var(--navy);
-  flex: 0 0 42px;
-  transition: background .2s, color .2s, border-color .2s, transform .2s;
+header.site-header nav.nav .social-links-header > a,
+header.site-header nav.nav .social-links-header > a:link,
+header.site-header nav.nav .social-links-header > a:visited {
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  flex: 0 0 42px !important;
+  flex-shrink: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 50% !important;
+  border-bottom: 1px solid var(--line) !important;
+  background: #fff !important;
+  color: var(--navy) !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+  transition: background .2s, color .2s, border-color .2s, transform .2s !important;
 }
 
-.nav .social-links-header a:hover {
-  background: #eaf5fc;
-  color: var(--blue);
-  border-color: var(--blue);
+header.site-header nav.nav .social-links-header > a:hover,
+header.site-header nav.nav .social-links-header > a:focus-visible {
+  background: #eaf5fc !important;
+  color: var(--blue) !important;
+  border-color: var(--blue) !important;
   transform: translateY(-2px);
+  outline-offset: 3px;
 }
 
-.nav .social-links-header svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  min-height: 24px;
-  overflow: visible;
+header.site-header nav.nav .social-links-header > a > svg {
+  display: block !important;
+  flex: 0 0 24px !important;
+  width: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: currentColor !important;
 }
 
 @media (max-width: 850px) {
@@ -59,47 +87,60 @@
     font-size: 11px;
   }
 
-  .nav .social-links-header {
-    gap: 8px;
+  header.site-header nav.nav .social-links-header {
+    gap: 8px !important;
   }
 
-  .nav .social-links-header a {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    flex-basis: 38px;
+  header.site-header nav.nav .social-links-header > a {
+    flex-basis: 38px !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
   }
 
-  .nav .social-links-header svg {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    min-height: 22px;
+  header.site-header nav.nav .social-links-header > a > svg {
+    flex-basis: 22px !important;
+    width: 22px !important;
+    min-width: 22px !important;
+    max-width: 22px !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
   }
 }
 
 @media (max-width: 680px) {
-  .nav .social-links-header {
-    align-self: flex-start;
-    margin: 12px 0 0;
-    padding-top: 12px;
-    border-top: 1px solid var(--line);
-    gap: 12px;
+  header.site-header nav.nav .social-links-header {
+    align-self: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    margin: 12px 0 0 !important;
+    padding: 12px 0 0 !important;
+    border-top: 1px solid var(--line) !important;
   }
 
-  .nav .social-links-header a {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    flex-basis: 42px;
-    padding: 0;
-    border: 1px solid var(--line);
+  header.site-header nav.nav .social-links-header > a {
+    flex: 0 0 42px !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    padding: 0 !important;
+    border: 1px solid var(--line) !important;
   }
 
-  .nav .social-links-header svg {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    min-height: 24px;
+  header.site-header nav.nav .social-links-header > a > svg {
+    flex: 0 0 24px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    max-height: 24px !important;
   }
 }
