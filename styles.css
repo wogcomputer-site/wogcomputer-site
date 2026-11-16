@@ -95,3 +95,45 @@
     border-color: var(--blue);
     transform: translateY(-2px);
 }
+
+/* WOG COMPUTER v2.3 - Correção definitiva dos ícones sociais */
+
+.social-links-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.social-links-header a {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid #e3eaf1 !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    color: #102b4e !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.social-links-header a svg {
+    display: block !important;
+    width: 25px !important;
+    height: 25px !important;
+    min-width: 25px !important;
+    min-height: 25px !important;
+    flex-shrink: 0 !important;
+}
+
+.social-links-header a:hover {
+    background: #eaf5fc !important;
+    color: #1689dc !important;
+    border-color: #1689dc !important;
+}
