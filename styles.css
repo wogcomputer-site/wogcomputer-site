@@ -144,3 +144,12 @@ header.site-header nav.nav .social-links-header > a > svg {
     max-height: 24px !important;
   }
 }
+
+/* Cores oficiais das redes sociais — WOG COMPUTER v2.3.2 */
+header.site-header nav.nav .social-link-instagram {
+  color: #d62976 !important;
+}
+
+header.site-header nav.nav .social-link-facebook {
+  color: #1877F2 !important;
+}
