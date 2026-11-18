@@ -1,7 +1,7 @@
 
 # WOG COMPUTER
 ## Comércio e Serviços de Informática
-### Documentação Técnica e Institucional — Versão 2.3
+### Documentação Técnica e Institucional — Versão 2.3.2
 
 **Tecnologia que move negócios.**
 
