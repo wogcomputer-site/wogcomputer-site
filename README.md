@@ -1,7 +1,7 @@
 
 # WOG COMPUTER
 ## Comércio e Serviços de Informática
-### Documentação Técnica e Institucional — Versão 2.3.2
+### Documentação Técnica e Institucional — Versão 2.3.3
 
 **Tecnologia que move negócios.**
 
@@ -17,7 +17,7 @@ Site institucional oficial da WOG COMPUTER, desenvolvido para apresentar soluç�
 |---|---|
 | Projeto | Site Institucional WOG COMPUTER |
 | Empresa | WOG COMPUTER |
-| Versão atual | 2.3 |
+| Versão atual | 2.3.3 |
 | Tipo | Website institucional |
 | Arquitetura | Site estático |
 | Linguagens | HTML5, CSS3 e JavaScript |
@@ -47,6 +47,7 @@ WOG_COMPUTER/
 ├── assets/
 │   ├── logo-wogcomputer
 │   ├── favicon
+│   ├── og-wogcomputer.jpg
 │   ├── loja-interior
 │   ├── loja-moderna
 │   ├── loja-wogcomputer
@@ -63,10 +64,12 @@ WOG_COMPUTER/
 
 | Arquivo | Função |
 |---|---|
-| index.html | Estrutura e conteúdo do site |
+| index.html | Estrutura, conteúdo, metadados SEO e dados estruturados |
 | styles.css | Estilos, identidade visual e responsividade |
 | script.js | Interações e funcionalidades JavaScript |
-| assets/ | Imagens, logotipo e elementos visuais |
+| assets/ | Imagens, logotipo, favicon e imagem de compartilhamento social |
+| robots.txt | Regras públicas de rastreamento para mecanismos de busca |
+| sitemap.xml | Endereço canônico das páginas públicas indexáveis |
 | README.md | Documentação técnica do projeto |
 
 ## 4. IDENTIDADE VISUAL
@@ -124,7 +127,7 @@ Foi realizada a integração do website com o Google Analytics 4 (GA4).
 
 - Propriedade: WOG COMPUTER - Site Oficial.
 - ID de mensuração: G-Y3W56JDHZ1.
-- Google Tag Manager: GTM-5R5QJV8Z.
+- Contêiner GTM informado no histórico do projeto: GTM-5R5QJV8Z. **Atenção:** o código-fonte desta entrega contém a instalação direta do GA4 (`gtag.js`), mas não contém o snippet de instalação do contêiner GTM. Não foi feita alteração nessa integração para evitar duplicidade sem uma auditoria específica.
 
 ### Eventos identificados
 
@@ -152,26 +155,43 @@ O objetivo é acompanhar os contatos comerciais originados pelo website.
 
 ## 8. SEO — OTIMIZAÇÃO PARA MECANISMOS DE BUSCA
 
-O projeto contempla a estruturação da presença orgânica da WOG COMPUTER.
+### Implementações da versão 2.3.3
 
-Objetivos:
+- Title otimizado com serviço e localização: WOG COMPUTER | TI, Segurança e Suporte em Vitória-ES.
+- Meta description revisada para apresentar os principais serviços e a localização.
+- Diretivas `index, follow` para mecanismos de busca.
+- URL canônica da página inicial (`https://wogcomputer.com.br/`).
+- Metadados Open Graph completos, incluindo imagem de compartilhamento 1200 × 630.
+- Metadados Twitter/X Cards.
+- Dados estruturados JSON-LD com `ComputerStore` e `WebSite`, utilizando informações institucionais presentes no projeto.
+- Arquivo `robots.txt` liberando o rastreamento público e indicando o sitemap.
+- Arquivo `sitemap.xml` com a URL canônica da página inicial.
 
-- Melhorar a indexação do site.
-- Otimizar títulos e descrições.
-- Trabalhar palavras-chave estratégicas.
-- Melhorar a experiência do usuário.
-- Ampliar a visibilidade nas pesquisas do Google.
-- Atrair empresas interessadas em contratos de TI.
+### Escopo atual do sitemap
 
-### Palavras-chave estratégicas
+O website entregue é uma página institucional única, organizada em seções e âncoras (`#inicio`, `#solucoes`, `#empresa`, entre outras). Por isso, o sitemap lista somente a URL pública canônica da página inicial. As âncoras não são páginas independentes e não devem ser cadastradas como URLs distintas no sitemap.
 
-- Infraestrutura de TI.
-- Segurança da Informação.
-- Suporte Técnico Empresarial.
-- Backup em Nuvem.
-- Manutenção de Computadores.
-- Consultoria em Tecnologia.
-- Gestão de TI para Empresas.
+### Palavras-chave estratégicas para o trabalho de conteúdo
+
+- Empresa de TI em Vitória-ES.
+- Infraestrutura de TI empresarial.
+- Segurança da informação para empresas.
+- Backup em nuvem empresarial.
+- Suporte técnico empresarial.
+- Contratos de serviços de TI.
+- Redes e conectividade empresarial.
+
+As palavras-chave orientam a estratégia editorial e não representam garantia de posição nos resultados de busca. O posicionamento depende também de concorrência, relevância, conteúdo, reputação, rastreamento e indexação.
+
+### Validações externas pendentes
+
+Após a publicação da versão 2.3.3, validar os seguintes endereços no domínio de produção:
+
+- `https://wogcomputer.com.br/robots.txt`
+- `https://wogcomputer.com.br/sitemap.xml`
+- `https://wogcomputer.com.br/`
+
+Em seguida, cadastrar/verificar o domínio no Google Search Console e enviar o sitemap. A inclusão no sitemap não garante indexação ou posicionamento.
 
 ## 9. TECNOLOGIAS E FERRAMENTAS
 
@@ -219,6 +239,7 @@ O projeto utiliza GitHub para controle de versões e gerenciamento dos arquivos.
 | 2.0 | Evolução da estrutura institucional |
 | 2.2 | Atualização do website e inclusão das redes sociais |
 | 2.3 | Evolução da documentação, monitoramento, conversões e aprimoramentos institucionais |
+| 2.3.3 | SEO técnico: metadados, canonical, Open Graph, Twitter Cards, JSON-LD, robots.txt, sitemap.xml e imagem social |
 
 ## 12. PRÓXIMAS EVOLUÇÕES
 
@@ -252,4 +273,26 @@ Segurança da Informação | Gestão de Tecnologia | Soluções Empresariais
 
 *WOG COMPUTER — Tecnologia que move negócios.*
 
-*Documentação técnica — Versão 2.3 — Novembro de 2026.*
+*Documentação técnica — Versão 2.3.3 — Novembro de 2026.*
+
+
+## 14. NOTAS DE IMPLEMENTAÇÃO — VERSÃO 2.3.3
+
+- Atualização dos metadados da página inicial sem alteração do layout visual.
+- Inclusão de URL canônica e diretivas de indexação.
+- Inclusão de Open Graph e Twitter/X Cards.
+- Criação da imagem social `assets/og-wogcomputer.jpg` (1200 × 630).
+- Inclusão de dados estruturados JSON-LD para o negócio e o website.
+- Criação de `robots.txt` e `sitemap.xml`.
+- Atualização dos parâmetros de cache dos arquivos CSS e JavaScript para `2.3.3`.
+- Preservação do GA4 e dos eventos JavaScript existentes.
+- Não foram adicionados serviços pagos, scripts de anúncios ou exigências de cartão.
+- Não foram criadas páginas internas novas; o website permanece institucional de página única.
+
+### Observação sobre rastreamento
+
+A versão entregue preserva a implementação GA4 encontrada no ZIP. O ID de contêiner GTM descrito em versões anteriores da documentação não aparece instalado no `index.html` fornecido. Recomenda-se auditar GA4/GTM no Tag Assistant antes de adicionar outro snippet, para evitar disparos duplicados.
+
+### Testes locais executados
+
+Os testes locais desta entrega verificam a sintaxe estrutural dos arquivos, a leitura do XML do sitemap, a existência dos arquivos de SEO e a resolução de referências locais. A publicação em Cloudflare Pages e a resposta HTTP real do domínio dependem do deploy e devem ser validadas após a atualização.
