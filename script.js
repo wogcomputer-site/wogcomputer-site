@@ -1,5 +1,6 @@
 // ==========================================
 // WOG COMPUTER - MONITORAMENTO GA4
+// Versão 2.3.5
 // ==========================================
 
 // MENU RESPONSIVO
@@ -36,8 +37,9 @@ function trackGA4(eventName, parameters = {}) {
 // RASTREAMENTO DE CLIQUES
 document.addEventListener("click", event => {
   const element = event.target.closest("a");
-
   if (!element) return;
+
+  const linkText = element.innerText.trim().slice(0, 100);
 
   // 1. CLIQUES NO WHATSAPP
   if (element.href.includes("wa.me/")) {
@@ -55,60 +57,100 @@ document.addEventListener("click", event => {
 
     trackGA4("whatsapp_click", {
       link_location: location,
-      link_text: element.innerText.trim().slice(0, 100)
+      link_text: linkText
     });
   }
 
   // 2. INTERESSE EM SERVIÇOS
   const serviceCard = element.closest(".service-card");
-
   if (serviceCard) {
     const serviceName =
-      serviceCard.querySelector("h3")?.textContent.trim() || "Não identificado";
+      serviceCard.dataset.serviceName ||
+      serviceCard.querySelector("h3")?.textContent.trim() ||
+      "Não identificado";
 
     trackGA4("service_interest_click", {
-      service_name: serviceName
+      service_name: serviceName,
+      link_text: linkText
     });
+
+    // Registra também a intenção de solicitar orçamento daquele serviço.
+    if (element.matches("[data-service-cta]")) {
+      const interestField = document.getElementById("interest");
+      if (interestField) {
+        interestField.value = serviceName;
+      }
+
+      trackGA4("service_quote_cta_click", {
+        service_name: serviceName,
+        link_text: linkText
+      });
+    }
   }
 
   // 3. CLIQUES EM SOLICITAR ORÇAMENTO
   if (element.getAttribute("href") === "#contato") {
     trackGA4("quote_cta_click", {
-      button_text: element.innerText.trim().slice(0, 100)
+      button_text: linkText
     });
+  }
+
+  // 4. CLIQUES NAS REDES SOCIAIS
+  const socialNetwork = element.dataset.socialNetwork;
+  if (socialNetwork) {
+    const socialEventNames = {
+      instagram: "instagram_click",
+      facebook: "facebook_click",
+      linkedin: "linkedin_click"
+    };
+
+    const socialParameters = {
+      social_network: socialNetwork,
+      link_url: element.href,
+      link_location: "header"
+    };
+
+    trackGA4("social_media_click", socialParameters);
+    trackGA4(socialEventNames[socialNetwork], socialParameters);
   }
 });
 
-// 4. FORMULÁRIO DE ORÇAMENTO
+// 5. FORMULÁRIO DE ORÇAMENTO -> WHATSAPP
 const form = document.getElementById("quote-form");
 
 if (form) {
   form.addEventListener("submit", event => {
     event.preventDefault();
 
-    const data = new FormData(form);
+    if (!form.reportValidity()) return;
 
+    const data = new FormData(form);
     const interest = String(data.get("interest") || "");
 
     // Não enviar nome, telefone, empresa ou mensagem pessoal ao GA4.
     trackGA4("quote_form_whatsapp_open", {
       form_id: "quote-form",
-      interest: interest
+      interest
+    });
+
+    // Evento recomendado do GA4 para sinalizar geração de lead.
+    trackGA4("generate_lead", {
+      currency: "BRL",
+      form_id: "quote-form",
+      interest
     });
 
     const message = [
       "Olá! Gostaria de falar com a WOG COMPUTER.",
       `Nome: ${String(data.get("name") || "").trim()}`,
-      data.get("company") ? `Empresa: ${data.get("company")}` : "",
+      data.get("company") ? `Empresa: ${String(data.get("company")).trim()}` : "",
       `Assunto: ${interest}`,
-      data.get("message") ? `Mensagem: ${data.get("message")}` : ""
+      data.get("message") ? `Mensagem: ${String(data.get("message")).trim()}` : ""
     ].filter(Boolean).join("\n");
 
-    window.open(
-      "https://wa.me/5527997589719?text=" +
-      encodeURIComponent(message),
-      "_blank",
-      "noopener"
-    );
+    const whatsappUrl =
+      "https://wa.me/5527997589719?text=" + encodeURIComponent(message);
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   });
 }

@@ -1,7 +1,7 @@
 
 # WOG COMPUTER
 ## Comércio e Serviços de Informática
-### Documentação Técnica e Institucional — Versão 2.3.4
+### Documentação Técnica e Institucional — Versão 2.3.5
 
 **Tecnologia que move negócios.**
 
@@ -17,7 +17,7 @@ Site institucional oficial da WOG COMPUTER, desenvolvido para apresentar soluç�
 |---|---|
 | Projeto | Site Institucional WOG COMPUTER |
 | Empresa | WOG COMPUTER |
-| Versão atual | 2.3.4 |
+| Versão atual | 2.3.5 |
 | Tipo | Website institucional |
 | Arquitetura | Site estático |
 | Linguagens | HTML5, CSS3 e JavaScript |
@@ -47,6 +47,9 @@ WOG_COMPUTER/
 ├── assets/
 │   ├── bancada-assistencia.webp
 │   ├── favicon.svg
+│   ├── facebook.webp
+│   ├── instagram.webp
+│   ├── linkedin.webp
 │   ├── logo-wogcomputer.webp
 │   ├── loja-interior.webp
 │   ├── loja-moderna.webp
@@ -97,6 +100,7 @@ O website contempla:
 - Integração com WhatsApp.
 - Integração com Instagram.
 - Integração com Facebook.
+- Integração com LinkedIn (link informado para o feed do LinkedIn).
 - Links externos para redes sociais.
 - Layout responsivo para computadores e dispositivos móveis.
 
@@ -110,7 +114,7 @@ O site possui integração com os canais digitais da WOG COMPUTER.
 - Facebook.
 - WhatsApp.
 
-Os ícones de Instagram e Facebook direcionam o visitante para os respectivos canais oficiais em nova aba.
+Os ícones WebP de Instagram, Facebook e LinkedIn são apresentados no cabeçalho no mesmo padrão visual e abrem os destinos em nova aba. O endereço LinkedIn atualmente configurado é `https://www.linkedin.com/feed/`, conforme fornecido para esta implementação; esse endereço abre o feed do LinkedIn e não identifica uma página pública institucional da WOG COMPUTER. Quando houver uma URL pública da empresa, recomenda-se substituí-lo.
 
 A integração tem como objetivos:
 
@@ -144,10 +148,16 @@ Foi realizada a integração do website com o Google Analytics 4 (GA4).
 | quote_form_whatsapp_open | Abertura do WhatsApp pelo formulário |
 | service_interest_click | Interesse em serviços |
 | whatsapp_click | Clique no WhatsApp |
+| instagram_click | Clique no Instagram |
+| facebook_click | Clique no Facebook |
+| linkedin_click | Clique no LinkedIn |
+| social_media_click | Clique em qualquer rede social, com parâmetro `social_network` |
+| service_quote_cta_click | Clique na chamada de orçamento de um serviço |
+| generate_lead | Envio do formulário para abertura do WhatsApp; inclui o serviço de interesse, sem dados pessoais |
 
 ### Conversões
 
-O evento `whatsapp_click` foi configurado como evento principal no Google Analytics.
+O evento `whatsapp_click` permanece preservado. A versão 2.3.5 acrescenta eventos específicos para Instagram, Facebook e LinkedIn, além de `social_media_click`, `service_quote_cta_click` e `generate_lead`. Para visualizar parâmetros como `social_network` e `service_name` em relatórios personalizados, cadastre-os como dimensões personalizadas no GA4. Se desejar que `generate_lead` apareça como conversão/evento principal, habilite essa opção na interface do GA4 após confirmar os primeiros eventos.
 
 O objetivo é acompanhar os contatos comerciais originados pelo website.
 
@@ -241,8 +251,33 @@ O projeto utiliza GitHub para controle de versões e gerenciamento dos arquivos.
 | 2.3 | Evolução da documentação, monitoramento, conversões e aprimoramentos institucionais |
 | 2.3.3 | SEO técnico: metadados, canonical, Open Graph, Twitter Cards, JSON-LD, robots.txt, sitemap.xml e imagem social |
 | 2.3.4 | Otimização das cinco imagens principais para WebP, atualização das referências no HTML e preservação de favicon e imagem Open Graph |
+| 2.3.5 | Ampliação para nove soluções, ícones WebP das redes sociais, LinkedIn, eventos de cliques sociais, CTA por serviço, evento de geração de lead e documentação atualizada |
 
-## 12. PRÓXIMAS EVOLUÇÕES
+## 12. SOLUÇÕES COMERCIAIS — VERSÃO 2.3.5
+
+A seção Soluções apresenta nove serviços:
+
+1. Infraestrutura de TI — inclui ambientes tecnológicos, redes, servidores, estações e Microsoft 365 quando aplicável.
+2. Segurança da informação — contempla proteção de dados, dispositivos, acessos, análise de riscos e apoio à adequação à LGPD.
+3. Backup em nuvem — cópia, armazenamento, recuperação de dados e continuidade.
+4. Suporte e manutenção — suporte técnico e manutenção preventiva/corretiva.
+5. Redes e conectividade — redes cabeadas, Wi-Fi e comunicação entre unidades.
+6. Contratos de TI — serviços recorrentes com escopo e níveis de atendimento definidos.
+7. Marketing Estratégico e Gestão de Presença Digital — planejamento de marketing, redes sociais, conteúdo e campanhas.
+8. Sites, Domínios e Hospedagem — criação e atualização de sites, domínios, hospedagem e e-mail profissional integrado.
+9. Internet, Link Dedicado, TV e Streaming — opções de conectividade e serviços associados conforme disponibilidade e cobertura.
+
+O formulário de orçamento foi atualizado para apresentar as nove soluções e encaminhar a escolha do visitante na mensagem preparada para o WhatsApp.
+
+## 13. RASTREAMENTO DE REDES SOCIAIS E LIMITES DAS FERRAMENTAS
+
+Os cliques nos ícones de Instagram, Facebook e LinkedIn são enviados ao GA4 em nova aba. Os eventos específicos são `instagram_click`, `facebook_click` e `linkedin_click`, acompanhados pelo evento geral `social_media_click`.
+
+O Google Analytics 4 é a ferramenta apropriada para analisar esses eventos de interação no site. O Google Search Console não é um sistema de analytics de cliques em botões ou links externos; ele acompanha desempenho da presença do site nos resultados da Pesquisa Google, indexação e aspectos relacionados à pesquisa.
+
+A implementação registra o clique no link do site. Ela não comprova que o visitante concluiu login, visualizou uma publicação ou interagiu dentro da rede social.
+
+## 14. PRÓXIMAS EVOLUÇÕES
 
 O planejamento de evolução do website contempla:
 
@@ -255,7 +290,7 @@ O planejamento de evolução do website contempla:
 - Ampliação das ferramentas de análise.
 - Desenvolvimento de novas funcionalidades comerciais.
 
-## 13. RESPONSABILIDADE TÉCNICA
+## 15. RESPONSABILIDADE TÉCNICA
 
 **WAGNER GARCIA**
 
@@ -274,10 +309,10 @@ Segurança da Informação | Gestão de Tecnologia | Soluções Empresariais
 
 *WOG COMPUTER — Tecnologia que move negócios.*
 
-*Documentação técnica — Versão 2.3.4 — Novembro de 2026.*
+*Documentação técnica — Versão 2.3.5 — Novembro de 2026.*
 
 
-## 14. NOTAS DE IMPLEMENTAÇÃO — VERSÃO 2.3.3
+## 16. NOTAS DE IMPLEMENTAÇÃO — VERSÃO 2.3.3
 
 - Atualização dos metadados da página inicial sem alteração do layout visual.
 - Inclusão de URL canônica e diretivas de indexação.
@@ -299,36 +334,17 @@ A versão entregue preserva a implementação GA4 encontrada no ZIP. O ID de con
 Os testes locais desta entrega verificam a sintaxe estrutural dos arquivos, a leitura do XML do sitemap, a existência dos arquivos de SEO e a resolução de referências locais. A publicação em Cloudflare Pages e a resposta HTTP real do domínio dependem do deploy e devem ser validadas após a atualização.
 
 
-## 15. Atualização 2.3.4 — Otimização de imagens
+## 16. NOTAS DE IMPLEMENTAÇÃO — VERSÃO 2.3.5
 
-- Cinco imagens PNG substituídas por versões WebP.
-- Referências locais e logo no JSON-LD atualizadas no `index.html`.
-- `favicon.svg` e `og-wogcomputer.jpg` preservados.
-- CSS, JavaScript, GA4, eventos, SEO textual, sitemap e robots.txt preservados.
+- Nove soluções comerciais apresentadas na seção Soluções.
+- O formulário contempla as nove soluções e mantém as opções de equipamentos e outra necessidade.
+- Os CTAs dos cartões selecionam automaticamente o serviço correspondente no formulário.
+- O formulário mantém a preparação da mensagem e abertura do WhatsApp em nova aba.
+- Instagram, Facebook e LinkedIn usam ícones WebP com dimensões visuais equivalentes.
+- O clique em cada rede gera evento específico e evento geral no GA4.
+- O evento `generate_lead` é enviado no envio do formulário, sem transmitir nome, empresa ou mensagem livre ao GA4.
+- A logo original da WOG COMPUTER e os recursos visuais existentes foram preservados.
+- A URL do LinkedIn configurada é o feed geral fornecido pelo responsável; substituir quando a URL pública institucional da empresa estiver disponível.
 
-
-## 16. CONFERÊNCIA DA ENTREGA — VERSÃO 2.3.4
-
-Esta pasta representa a entrega consolidada da versão **2.3.4**.
-
-### Arquivos de produção
-- `index.html`
-- `styles.css`
-- `script.js`
-- `robots.txt`
-- `sitemap.xml`
-- `assets/`
-
-### Arquivos de documentação
-- `README.md` — documentação principal atualizada para a versão 2.3.4.
-- `RELATORIO-SEO-v2.3.3.md` — relatório histórico das implementações de SEO realizadas na versão 2.3.3.
-- `RELATORIO-OTIMIZACAO-IMAGENS-v2.3.4.md` — registro das otimizações de imagens desta versão.
-
-### Alterações de nomenclatura nesta revisão
-- Identificação da versão atual corrigida para 2.3.4 neste README.
-- Parâmetros de cache do CSS e JavaScript no `index.html` atualizados para `2.3.4`.
-- Nomes reais dos arquivos de imagem documentados com suas extensões.
-- Relatório de SEO v2.3.3 mantido com sua identificação original por ser documentação histórica, não um arquivo de produção da versão atual.
-
-### Limites da conferência
-A revisão do pacote confirma a estrutura e as referências locais dos arquivos incluídos. O comportamento após publicação, a resposta HTTP do domínio, o PageSpeed, a coleta de eventos GA4 e a indexação por mecanismos de busca precisam ser verificados depois do deploy.
+### Limites de validação
+A validação estrutural e de sintaxe foi realizada localmente. A coleta efetiva dos eventos, a publicação, a resposta HTTP, o comportamento visual em dispositivos reais e a indexação devem ser confirmados após o deploy.
