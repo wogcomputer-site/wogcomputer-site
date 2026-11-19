@@ -153,3 +153,43 @@ header.site-header nav.nav .social-link-instagram {
 header.site-header nav.nav .social-link-facebook {
   color: #1877F2 !important;
 }
+
+
+/* Ícones WebP das redes sociais — WOG COMPUTER v2.3.5 */
+header.site-header nav.nav .social-links-header > a > img {
+  display: block !important;
+  flex: 0 0 24px !important;
+  width: 24px !important;
+  min-width: 24px !important;
+  max-width: 24px !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  max-height: 24px !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 850px) {
+  header.site-header nav.nav .social-links-header > a > img {
+    flex-basis: 22px !important;
+    width: 22px !important;
+    min-width: 22px !important;
+    max-width: 22px !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  header.site-header nav.nav .social-links-header > a > img {
+    flex-basis: 24px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    max-height: 24px !important;
+  }
+}
