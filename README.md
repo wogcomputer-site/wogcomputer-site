@@ -1,7 +1,7 @@
 
 # WOG COMPUTER
 ## Comércio e Serviços de Informática
-### Documentação Técnica e Institucional — Versão 2.3.3
+### Documentação Técnica e Institucional — Versão 2.3.4
 
 **Tecnologia que move negócios.**
 
@@ -17,7 +17,7 @@ Site institucional oficial da WOG COMPUTER, desenvolvido para apresentar soluç�
 |---|---|
 | Projeto | Site Institucional WOG COMPUTER |
 | Empresa | WOG COMPUTER |
-| Versão atual | 2.3.3 |
+| Versão atual | 2.3.4 |
 | Tipo | Website institucional |
 | Arquitetura | Site estático |
 | Linguagens | HTML5, CSS3 e JavaScript |
@@ -45,14 +45,14 @@ Desenvolver uma presença digital profissional para a WOG COMPUTER, com foco em:
 WOG_COMPUTER/
 │
 ├── assets/
-│   ├── logo-wogcomputer
-│   ├── favicon
+│   ├── bancada-assistencia.webp
+│   ├── favicon.svg
+│   ├── logo-wogcomputer.webp
+│   ├── loja-interior.webp
+│   ├── loja-moderna.webp
+│   ├── loja-wogcomputer.webp
 │   ├── og-wogcomputer.jpg
-│   ├── loja-interior
-│   ├── loja-moderna
-│   ├── loja-wogcomputer
-│   ├── bancada-assistencia
-│   └── placeholder
+│   └── placeholder.txt
 │
 ├── index.html
 ├── styles.css
@@ -240,6 +240,7 @@ O projeto utiliza GitHub para controle de versões e gerenciamento dos arquivos.
 | 2.2 | Atualização do website e inclusão das redes sociais |
 | 2.3 | Evolução da documentação, monitoramento, conversões e aprimoramentos institucionais |
 | 2.3.3 | SEO técnico: metadados, canonical, Open Graph, Twitter Cards, JSON-LD, robots.txt, sitemap.xml e imagem social |
+| 2.3.4 | Otimização das cinco imagens principais para WebP, atualização das referências no HTML e preservação de favicon e imagem Open Graph |
 
 ## 12. PRÓXIMAS EVOLUÇÕES
 
@@ -273,7 +274,7 @@ Segurança da Informação | Gestão de Tecnologia | Soluções Empresariais
 
 *WOG COMPUTER — Tecnologia que move negócios.*
 
-*Documentação técnica — Versão 2.3.3 — Novembro de 2026.*
+*Documentação técnica — Versão 2.3.4 — Novembro de 2026.*
 
 
 ## 14. NOTAS DE IMPLEMENTAÇÃO — VERSÃO 2.3.3
@@ -296,3 +297,38 @@ A versão entregue preserva a implementação GA4 encontrada no ZIP. O ID de con
 ### Testes locais executados
 
 Os testes locais desta entrega verificam a sintaxe estrutural dos arquivos, a leitura do XML do sitemap, a existência dos arquivos de SEO e a resolução de referências locais. A publicação em Cloudflare Pages e a resposta HTTP real do domínio dependem do deploy e devem ser validadas após a atualização.
+
+
+## 15. Atualização 2.3.4 — Otimização de imagens
+
+- Cinco imagens PNG substituídas por versões WebP.
+- Referências locais e logo no JSON-LD atualizadas no `index.html`.
+- `favicon.svg` e `og-wogcomputer.jpg` preservados.
+- CSS, JavaScript, GA4, eventos, SEO textual, sitemap e robots.txt preservados.
+
+
+## 16. CONFERÊNCIA DA ENTREGA — VERSÃO 2.3.4
+
+Esta pasta representa a entrega consolidada da versão **2.3.4**.
+
+### Arquivos de produção
+- `index.html`
+- `styles.css`
+- `script.js`
+- `robots.txt`
+- `sitemap.xml`
+- `assets/`
+
+### Arquivos de documentação
+- `README.md` — documentação principal atualizada para a versão 2.3.4.
+- `RELATORIO-SEO-v2.3.3.md` — relatório histórico das implementações de SEO realizadas na versão 2.3.3.
+- `RELATORIO-OTIMIZACAO-IMAGENS-v2.3.4.md` — registro das otimizações de imagens desta versão.
+
+### Alterações de nomenclatura nesta revisão
+- Identificação da versão atual corrigida para 2.3.4 neste README.
+- Parâmetros de cache do CSS e JavaScript no `index.html` atualizados para `2.3.4`.
+- Nomes reais dos arquivos de imagem documentados com suas extensões.
+- Relatório de SEO v2.3.3 mantido com sua identificação original por ser documentação histórica, não um arquivo de produção da versão atual.
+
+### Limites da conferência
+A revisão do pacote confirma a estrutura e as referências locais dos arquivos incluídos. O comportamento após publicação, a resposta HTTP do domínio, o PageSpeed, a coleta de eventos GA4 e a indexação por mecanismos de busca precisam ser verificados depois do deploy.
