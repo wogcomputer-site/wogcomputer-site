@@ -498,8 +498,16 @@ if (form) {
 
 
     // Evento de formulário encaminhado ao WhatsApp.
-
     trackGA4("quote_form_whatsapp_open", {
+      form_id: "quote-form",
+      service_name: interest,
+      lead_channel: "whatsapp"
+    });
+
+    // Evento recomendado do GA4 para geração de lead.
+    // Registra uma solicitação válida encaminhada ao WhatsApp.
+    // Não confirma que o visitante enviou a mensagem.
+    trackGA4("generate_lead", {
       form_id: "quote-form",
       service_name: interest,
       lead_channel: "whatsapp"
