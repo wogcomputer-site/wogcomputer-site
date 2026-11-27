@@ -7,5 +7,5 @@ compatibility_date = "2026-11-26"
 [[d1_databases]]
 binding = "DB"
 database_name = "wogcomputer-v5-homologacao"
-database_id = "PREENCHER_COM_O_ID_DO_NOVO_D1"
+database_id = "363c0948-8132-4b75-922c-ae8cd9980610"
 migrations_dir = "database/migrations-v5"
