@@ -1,0 +1,11 @@
+name = "wogcomputer-v5-homologacao"
+pages_build_output_dir = "."
+compatibility_date = "2026-11-26"
+
+# Criar um NOVO banco D1 exclusivo para homologacao e substituir somente este ID.
+# Nunca apontar esta configuracao para o banco/ambiente de producao.
+[[d1_databases]]
+binding = "DB"
+database_name = "wogcomputer-v5-homologacao"
+database_id = "PREENCHER_COM_O_ID_DO_NOVO_D1"
+migrations_dir = "database/migrations-v5"

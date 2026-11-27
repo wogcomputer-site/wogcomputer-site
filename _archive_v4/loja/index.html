@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102b4e"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Catálogo demonstrativo da Loja WOG COMPUTER. Produtos em preparação, todos indisponíveis.">
+<link rel="canonical" href="https://wogcomputer.com.br/loja/">
+<title>Catálogo de Produtos | WOG COMPUTER</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css?v=4.0.0-preview">
+<style>
+.shop-wrap{padding:42px 0 70px}.shop-head{background:linear-gradient(120deg,#102b4e,#1c5a89);color:white;padding:46px 0}.shop-head h1{font-size:clamp(30px,4vw,46px);margin:12px 0}.shop-head p{color:#d8e7f4;max-width:760px;line-height:1.7}.demo-alert{background:#fff4db;color:#76500b;border:1px solid #f2d38d;border-radius:10px;padding:13px 16px;font-size:13px;line-height:1.6;margin:22px 0}.shop-tools{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;margin:22px 0}.shop-tools input,.shop-tools select{width:100%;padding:13px;border:1px solid #d7e0e9;border-radius:8px;background:white;color:#173b5d}.shop-count{font-size:13px;color:#66788b;margin:12px 0}.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.product-card{border:1px solid #e1e8ef;border-radius:13px;overflow:hidden;background:white;display:flex;flex-direction:column;min-width:0}.product-card img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#f7f9fb;padding:10px}.product-info{padding:15px;display:flex;flex-direction:column;gap:8px;flex:1}.product-cat{font-size:10px;letter-spacing:.7px;text-transform:uppercase;color:#55738d;font-weight:800}.product-info h3{font-size:15px;line-height:1.35;margin:0;color:#163b5d}.product-info p{font-size:12px;line-height:1.55;color:#66788b;margin:0}.product-price{font-size:20px;font-weight:800;color:#163b5d}.product-price small{display:block;font-size:10px;font-weight:500;color:#7b8794;margin-top:2px}.status-pill{align-self:flex-start;padding:6px 9px;border-radius:30px;background:#fce8e8;color:#a12d2d;font-size:10px;font-weight:800;letter-spacing:.4px}.product-code{font:11px monospace;color:#718094}.product-card button{margin-top:auto;padding:11px;border:0;border-radius:7px;background:#e8edf2;color:#718094;font-weight:800;cursor:not-allowed}.shop-footer-note{color:#718094;font-size:12px;line-height:1.7;margin-top:28px}.store-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 0}.store-nav a{font-size:13px;font-weight:700;color:#174c78}
+@media(max-width:900px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:650px){.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.shop-tools{grid-template-columns:1fr}.product-info{padding:11px}.product-info h3{font-size:13px}.product-price{font-size:17px}.shop-head{padding:34px 0}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="container store-nav"><a class="brand" href="/"><img src="/assets/logo-wogcomputer.webp" width="640" height="640" alt="Logo WOG COMPUTER"><span class="brand-name">WOG COMPUTER<small>COMÉRCIO E SERVIÇOS DE INFORMÁTICA</small></span></a><a href="/">← Voltar ao site</a></div></header>
+<section class="shop-head"><div class="container"><span class="store-tag">LOJA WOG COMPUTER · V4.0.0</span><h1>Catálogo de produtos</h1><p>Estrutura de categorias, subcategorias e produtos em fase de cadastro e homologação. Consulte os exemplos e a organização prevista para a loja.</p></div></section>
+<main class="container shop-wrap">
+<div class="demo-alert"><strong>CATÁLOGO DE HOMOLOGAÇÃO:</strong> todos os itens estão com status <strong>INDISPONÍVEL</strong>. Os preços são valores fictícios para demonstração de layout e cadastro, não constituem cotação, oferta ou disponibilidade comercial. Não é possível comprar nesta etapa.</div>
+<div class="shop-tools"><input id="search" type="search" placeholder="Buscar produto, SKU, marca ou categoria..." aria-label="Buscar produtos"><select id="category"><option value="">Todas as categorias</option></select><select id="subcategory"><option value="">Todas as subcategorias</option></select></div>
+<div class="shop-count" id="count" aria-live="polite">Carregando catálogo...</div>
+<div class="product-grid" id="products"></div>
+<p class="shop-footer-note">Pagamento previsto na futura loja: Pix e cartão. Retirada prevista: Rua Jânio Quadros, 246 — Jucutuquara, Vitória/ES — CEP 29040-675. O catálogo e os preços demonstrativos não estão habilitados para venda.</p>
+</main>
+<footer class="footer"><div class="container footer-bottom"><span>© WOG COMPUTER — Comércio e Serviços de Informática</span><span>(27) 99758-9719 · comercial@wogcomputer.com.br</span></div></footer>
+<script>
+(async()=>{
+ const res=await fetch('./catalogo-demo.json'); const db=await res.json();
+ const $=id=>document.getElementById(id), money=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ const cat=$('category'), sub=$('subcategory'), grid=$('products');
+ db.categories.forEach(c=>cat.add(new Option(c.name,c.id)));
+ function updateSubs(){const selected=cat.value;sub.innerHTML='<option value="">Todas as subcategorias</option>';db.categories.filter(c=>!selected||c.id===selected).forEach(c=>c.subcategories.forEach(s=>sub.add(new Option(c.name+' › '+s.name,s.name))))}
+ function render(){
+  const q=$('search').value.toLocaleLowerCase('pt-BR'), c=cat.value, s=sub.value;
+  const list=db.products.filter(p=>(!c||p.categoryId===c)&&(!s||p.subcategory===s)&&(!q||[p.name,p.sku,p.category,p.subcategory,p.brand].join(' ').toLocaleLowerCase('pt-BR').includes(q)));
+  $('count').textContent=`${list.length} produtos demonstrativos · ${db.categories.length} categorias · ${db.categories.reduce((n,c)=>n+c.subcategories.length,0)} subcategorias`;
+  grid.innerHTML=list.map(p=>`<article class="product-card"><img src="${p.image}" alt="${p.imageAlt}" loading="lazy"><div class="product-info"><span class="product-cat">${p.category} › ${p.subcategory}</span><h3>${p.name}</h3><span class="product-code">${p.sku}</span><div class="product-price">${money(p.price)}<small>Preço demonstrativo</small></div><span class="status-pill">INDISPONÍVEL</span><p>${p.shortDescription}</p><button type="button" disabled>Produto indisponível</button></div></article>`).join('');
+ }
+ cat.addEventListener('change',()=>{updateSubs();render()});sub.addEventListener('change',render);$('search').addEventListener('input',render);updateSubs();render();
+})().catch(()=>{$('products').textContent='Não foi possível carregar o catálogo demonstrativo.'});
+</script>
+</body></html>

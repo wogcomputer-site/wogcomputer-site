@@ -1,4 +1,6 @@
 User-agent: *
-Allow: /
-
+Disallow: /admin/
+Disallow: /api/
+Disallow: /prototipos/
+Disallow: /loja/
 Sitemap: https://wogcomputer.com.br/sitemap.xml
