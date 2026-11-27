@@ -1,9 +1,8 @@
 -- Seed de homologação: 119 produtos publicados, com preços preservados do catálogo e estoque inicial zero.
--- Nome do arquivo mantido por compatibilidade; os produtos NÃO são importados como rascunho.
+-- Os produtos são cadastrados como ativos/publicados, mas indisponíveis para compra com estoque zero.
 -- Produtos visíveis na loja, mas indisponíveis para compra enquanto o estoque permanecer em zero.
 -- A ficha técnica de cada cadastro contém somente: Referência ilustrativa.
 PRAGMA foreign_keys = ON;
-BEGIN TRANSACTION;
 INSERT INTO categories(id,parent_id,name,slug,description,sort_order,is_active) VALUES('COM',NULL,'Computadores','computadores','Desktops, PCs montados e All-in-One',0,1);
 INSERT INTO categories(id,parent_id,name,slug,description,sort_order,is_active) VALUES('COM-pc-gamer','COM','PC Gamer','COM-pc-gamer','',0,1);
 INSERT INTO categories(id,parent_id,name,slug,description,sort_order,is_active) VALUES('COM-pc-escrit-rio','COM','PC Escritório','COM-pc-escrit-rio','',1,1);
@@ -493,4 +492,3 @@ SET model = NULL,
     updated_at = CURRENT_TIMESTAMP
 WHERE id LIKE 'IMP-WOG-%';
 
-COMMIT;
