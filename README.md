@@ -1,4 +1,4 @@
-# WOG COMPUTER — Pacote de homologação V4.0.0
+# WOG COMPUTER — Pacote de homologação V5.0.0
 ## Base institucional V3.0.0 + loja em desenvolvimento
 
 **Site oficial:** https://wogcomputer.com.br/  
