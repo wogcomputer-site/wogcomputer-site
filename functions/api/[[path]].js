@@ -135,8 +135,9 @@ async function ensureBootstrap(env, request, body) {
   const batch = [
     env.DB.prepare("INSERT INTO roles(id,name,description,is_system) VALUES(?,?,?,1)")
       .bind(roleId, "Superadministrador", "Acesso total ao sistema WOG COMPUTER"),
-    env.DB.prepare("INSERT INTO admin_users(id,email,full_name,password_hash,status,password_changed_at) VALUES(?,?,?,?,'active',CURRENT_TIMESTAMP)")
-      .bind(userId, email, fullName, await passwordHash(password)),
+    
+env.DB.prepare("INSERT INTO admin_users(id,email,full_name,password_hash,status,password_changed_at) VALUES(?,?,?,?,'active',CURRENT_TIMESTAMP)")
+  .bind(userId, email, fullName, await passwordHash(password)),
     env.DB.prepare("INSERT INTO user_roles(user_id,role_id) VALUES(?,?)").bind(userId, roleId)
   ];
   for (const [module, action] of permissions) {
