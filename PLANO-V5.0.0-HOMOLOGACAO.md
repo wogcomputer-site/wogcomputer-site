@@ -2,7 +2,7 @@
 
 ## Decisões aprovadas
 - Criar banco Cloudflare D1 novo e exclusivo da V5.0.0; não reutilizar nem apagar o banco anterior.
-- Importar os 119 produtos demonstrativos como rascunhos para revisão individual.
+- Importar os 119 produtos demonstrativos como produtos ativos e publicados, com estoque inicial zero.
 - Manter a estrutura, identidade e paleta institucional do site atual. O CSS institucional (`/styles.css`) não foi redesenhado.
 - A loja recebe uma linguagem visual própria inspirada no varejo digital Magalu: azul vivo, amarelo de destaque, busca central, navegação por categorias e cards comerciais. Não é cópia de marca ou interface proprietária.
 - Manter Cloudinary como serviço de imagens; as credenciais continuam somente em secrets do Cloudflare/local.
@@ -13,8 +13,8 @@
 2. Cria `loja/loja-v5.css` separado do CSS institucional.
 3. Atualiza a vitrine demonstrativa para a nova direção visual, sem habilitar compras.
 4. Cria a migração `database/migrations-v5/0001_v5_core.sql` com base comercial e fundação RBAC.
-5. Cria `database/seeds/0002_import_119_products_as_drafts.sql`, com 22 categorias, 97 subcategorias e 119 produtos.
-6. Todos os produtos entram como `rascunho`, sem indexação, sem estoque e com preço operacional zerado. Valores fictícios originais permanecem no campo `import_reference_json`, apenas para consulta administrativa.
+5. Cria `database/seeds/0002_import_119_products.sql`, com 22 categorias, 97 subcategorias e 119 produtos.
+6. Todos os 119 produtos entram como ativos e publicados na loja, preservando seus nomes, descrições e preços originais. O estoque inicial será zero para todos, com compra sob encomenda desativada. A ficha técnica conterá somente “Referência ilustrativa”. Os produtos permanecerão inicialmente sem indexação (`is_indexable=0`) e indisponíveis para compra enquanto não houver estoque.
 7. Configura o nome do novo D1 como `wogcomputer-v5-homologacao`, aguardando o ID real gerado no Cloudflare.
 8. Mantém Cloudinary como destino de imagens e mantém o segredo da API fora do repositório.
 
