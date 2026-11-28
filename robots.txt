@@ -2,5 +2,7 @@ User-agent: *
 Disallow: /admin/
 Disallow: /api/
 Disallow: /prototipos/
-Disallow: /loja/
+Disallow: /loja/checkout/
+Disallow: /loja/obrigado/
+Allow: /loja/
 Sitemap: https://wogcomputer.com.br/sitemap.xml

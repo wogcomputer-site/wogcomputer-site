@@ -147,8 +147,17 @@ async function ensureBootstrap(env, request, body) {
       SELECT ?,id FROM permissions WHERE module=? AND action=?`).bind(roleId, module, action));
   }
   await env.DB.batch(batch);
-  await audit(env, userId, "bootstrap.create", "admin_user", userId, { email }, request);
-  return json({ ok: true, message: "Administrador inicial criado. Faça login pela tela administrativa." }, 201);
+  // A criação da conta não pode ser reportada como falha depois de já ter sido
+  // confirmada no D1. Se a auditoria falhar por divergência de schema no banco
+  // implantado, registrar no log do Worker e informar o aviso sem bloquear o login.
+  let auditWarning = false;
+  try {
+    await audit(env, userId, "bootstrap.create", "admin_user", userId, { email }, request);
+  } catch (error) {
+    auditWarning = true;
+    console.error("[WOG V5] Falha ao registrar auditoria do bootstrap:", error?.stack || error);
+  }
+  return json({ ok: true, auditWarning, message: "Administrador inicial criado. Faça login pela tela administrativa." }, 201);
 }
 async function createSession(env, user, request) {
   const token = b64url(crypto.getRandomValues(new Uint8Array(32)));
@@ -268,7 +277,10 @@ async function route(request, env) {
   const path = url.pathname.replace(/^\/api\/?/, "").replace(/^\/+|\/+$/g, "");
   const method = request.method.toUpperCase();
 
-  if (["POST","PUT","PATCH","DELETE"].includes(method) && !sameOrigin(request))
+  // Webhooks são chamadas servidor-servidor e normalmente não enviam Origin.
+  // Todas as demais mutações continuam protegidas por validação de mesma origem.
+  const isMercadoPagoWebhook = path === "payments/mercadopago/webhook" && method === "POST";
+  if (["POST","PUT","PATCH","DELETE"].includes(method) && !isMercadoPagoWebhook && !sameOrigin(request))
     return json({ error: "Origem da solicitação não autorizada." }, 403);
 
   if (path === "admin/status" && method === "GET") {
@@ -385,7 +397,7 @@ async function route(request, env) {
     if(!env.MP_ACCESS_TOKEN)return json({error:"Pagamento ainda não configurado. O administrador deve cadastrar as credenciais do Mercado Pago."},503);
     const customer=body.customer||{}, name=text(customer.name,160), email=text(customer.email,190).toLowerCase(), phone=text(customer.phone,30);
     if(!name||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||!phone)return json({error:"Informe nome, e-mail e telefone válidos."},400);
-    const method=["pix","credit_card","boleto"].includes(body.paymentMethod)?body.paymentMethod:"pix";
+    const method=["pix","credit_card"].includes(body.paymentMethod)?body.paymentMethod:"pix";
     const items=Array.isArray(body.items)?body.items.slice(0,30):[];
     if(!items.length)return json({error:"Carrinho vazio."},400);
     const ids=items.map(x=>text(x.variantId,80));
@@ -430,7 +442,29 @@ async function route(request, env) {
         .bind(randomId(),orderId,v.id,v.name,v.sku,v.quantity,v.price_cents,v.total));
     }
     statements.push(env.DB.prepare("INSERT INTO payments(id,order_id,provider,method,status,amount_cents) VALUES(?,?,'mercadopago',?,'pending',?)").bind(paymentId,orderId,method,total));
-    try{await env.DB.batch(statements);}catch{return json({error:"Não foi possível reservar o estoque. Atualize o carrinho e tente novamente."},409);}
+    let reservationResults;
+    try {
+      reservationResults = await env.DB.batch(statements);
+    } catch (error) {
+      console.error("[WOG V5] Falha ao gravar pedido/reserva:", error?.stack || error);
+      return json({error:"Não foi possível reservar o estoque. Atualize o carrinho e tente novamente."},409);
+    }
+    // UPDATE ... WHERE estoque_suficiente pode afetar zero linhas sem gerar erro SQL.
+    // Conferimos cada UPDATE para impedir pedido com estoque não reservado.
+    const failedReservation = normalized.some((item, index) =>
+      !(reservationResults?.[2 + index * 2]?.meta?.changes > 0)
+    );
+    if (failedReservation) {
+      const releases = normalized.map((item, index) => {
+        const changed = reservationResults?.[2 + index * 2]?.meta?.changes > 0;
+        return changed ? env.DB.prepare(
+          "UPDATE product_variants SET reserved_quantity=MAX(0,reserved_quantity-?) WHERE id=?"
+        ).bind(item.quantity, item.id) : null;
+      }).filter(Boolean);
+      if (releases.length) await env.DB.batch(releases);
+      await env.DB.prepare("UPDATE orders SET status='stock_conflict',payment_status='failed',updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(orderId).run();
+      return json({error:"O estoque mudou durante a finalização. Atualize o carrinho e tente novamente."},409);
+    }
     const mpItems=normalized.map(v=>({id:v.id,title:v.name,quantity:v.quantity,currency_id:"BRL",unit_price:v.price_cents/100}));
     if(shipping>0)mpItems.push({id:"FRETE",title:"Frete",quantity:1,currency_id:"BRL",unit_price:shipping/100});
     const origin=url.origin;
@@ -439,8 +473,16 @@ async function route(request, env) {
        method==="credit_card"?[{id:"ticket"},{id:"bank_transfer"}]:
        [{id:"credit_card"},{id:"debit_card"},{id:"bank_transfer"}],
        installments:method==="credit_card"?12:1},back_urls:{success:`${origin}/loja/obrigado/?pedido=${encodeURIComponent(orderNumber)}`,pending:`${origin}/loja/obrigado/?pedido=${encodeURIComponent(orderNumber)}`,failure:`${origin}/loja/checkout/?pedido=${encodeURIComponent(orderNumber)}`},auto_return:"approved",notification_url:`${origin}/api/payments/mercadopago/webhook`};
-    const mp=await fetch("https://api.mercadopago.com/checkout/preferences",{method:"POST",headers:{Authorization:`Bearer ${env.MP_ACCESS_TOKEN}`,"Content-Type":"application/json"},body:JSON.stringify(pref)});
-    const mpData=await mp.json().catch(()=>({}));
+    let mp, mpData;
+    try {
+      mp=await fetch("https://api.mercadopago.com/checkout/preferences",{method:"POST",headers:{Authorization:`Bearer ${env.MP_ACCESS_TOKEN}`,"Content-Type":"application/json"},body:JSON.stringify(pref)});
+      mpData=await mp.json().catch(()=>({}));
+    } catch (error) {
+      console.error("[WOG V5] Falha de comunicação com Mercado Pago:", error?.stack || error);
+      await env.DB.prepare("UPDATE product_variants SET reserved_quantity=MAX(0,reserved_quantity-(SELECT quantity FROM order_items WHERE order_id=? AND variant_id=product_variants.id)) WHERE id IN (SELECT variant_id FROM order_items WHERE order_id=?)").bind(orderId,orderId).run();
+      await env.DB.prepare("UPDATE orders SET status='payment_setup_error',payment_status='failed',updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(orderId).run();
+      return json({error:"Não foi possível conectar ao Mercado Pago. A reserva de estoque foi liberada; tente novamente."},502);
+    }
     if(!mp.ok||!mpData.init_point){
       await env.DB.prepare("UPDATE product_variants SET reserved_quantity=MAX(0,reserved_quantity-(SELECT quantity FROM order_items WHERE order_id=? AND variant_id=product_variants.id)) WHERE id IN (SELECT variant_id FROM order_items WHERE order_id=?)").bind(orderId,orderId).run();
       await env.DB.prepare("UPDATE orders SET status='payment_setup_error',payment_status='failed' WHERE id=?").bind(orderId).run();
@@ -654,7 +696,13 @@ async function route(request, env) {
 export async function onRequest(context) {
   try { return await route(context.request,context.env); }
   catch (error) {
-    // Não expor detalhes internos, SQL ou segredos ao cliente.
+    // Detalhes ficam somente nos logs do Cloudflare; nunca são enviados ao navegador.
+    console.error("[WOG V5 API] Falha não tratada:", {
+      method: context.request.method,
+      path: new URL(context.request.url).pathname,
+      message: error?.message || String(error),
+      stack: error?.stack || null
+    });
     return json({error:"Erro interno ao processar a solicitação."},500);
   }
 }

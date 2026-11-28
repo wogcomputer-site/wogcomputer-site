@@ -1,40 +1,48 @@
-# WOG COMPUTER V5 — Configuração dos gateways
+# WOG COMPUTER V5 — configuração de gateways
 
-## Segredos obrigatórios (Cloudflare Pages > Settings > Variables and Secrets)
+## Métodos de pagamento permitidos
 
-Cadastrar como **Secrets**, nunca como texto no código:
-- `ADMIN_BOOTSTRAP_TOKEN`: token aleatório forte para criar o primeiro administrador; remover após o bootstrap.
-- `MP_ACCESS_TOKEN`: token de acesso da aplicação Mercado Pago.
-- `MP_WEBHOOK_SECRET`: chave secreta de assinatura dos Webhooks do Mercado Pago.
-- `MELHORENVIO_TOKEN`: token OAuth da conta Melhor Envio.
-- `MELHORENVIO_FROM_POSTAL_CODE`: CEP de origem da expedição WOG COMPUTER (somente CEP, 8 dígitos).
+A loja aceita exclusivamente:
+- Pix
+- Cartão de crédito
+- Cartão de débito
 
-Opcional:
-- `MELHORENVIO_API_URL`: endpoint de cotação. Produção padrão `https://melhorenvio.com.br/api/v2/me/shipment/calculate`; sandbox `https://sandbox.melhorenvio.com.br/api/v2/me/shipment/calculate`.
-- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`: para upload de imagens no painel.
+Boleto, transferência bancária e outros métodos não devem ser oferecidos. O checkout solicita Pix ou cartão; para cartão, o Mercado Pago apresenta as opções de crédito/débito e bandeiras habilitadas na conta. A disponibilidade de cada bandeira precisa ser confirmada no sandbox e na conta comercial.
+
+## Secrets do ambiente Preview
+
+Cadastrar como Secrets em Cloudflare Pages > Settings > Variables and Secrets:
+- `ADMIN_BOOTSTRAP_TOKEN`
+- `MP_ACCESS_TOKEN` (token de teste)
+- `MP_WEBHOOK_SECRET`
+- `MELHORENVIO_TOKEN`
+- `MELHORENVIO_FROM_POSTAL_CODE`
+- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` (se usar upload no painel)
+
+Nunca inserir valores reais no repositório ou enviar pelo chat.
 
 ## Mercado Pago
-1. Criar aplicação Mercado Pago e obter Access Token de TESTE.
-2. Cadastrar `MP_ACCESS_TOKEN` de teste no ambiente Preview.
-3. Em Webhooks, configurar URL `https://<URL-PREVIEW>/api/payments/mercadopago/webhook`, evento de pagamentos e copiar a assinatura secreta para `MP_WEBHOOK_SECRET`.
-4. Testar Pix e cartão em sandbox. A API cria Checkout Pro Preferences e redireciona o cliente ao ambiente do Mercado Pago.
-5. Somente depois de aprovar os testes, substituir pelas credenciais de produção no ambiente de produção e cadastrar o webhook de produção.
+
+1. Configurar credenciais de teste no Preview.
+2. Registrar o webhook `https://<URL-PREVIEW>/api/payments/mercadopago/webhook` para eventos de pagamento.
+3. Configurar o segredo de assinatura em `MP_WEBHOOK_SECRET`.
+4. Testar Pix e cartão (crédito e débito), incluindo aprovado, recusado, cancelado e notificações repetidas.
+5. Somente após aprovação, configurar credenciais e webhook de produção no ambiente Production, sem compartilhar secrets entre ambientes.
+
+A implementação usa Checkout Pro. O conjunto de bandeiras depende da habilitação/contrato da conta Mercado Pago; não se deve prometer bandeiras que não estejam disponíveis na conta.
 
 ## Melhor Envio
-1. Criar/autorizar integração na conta Melhor Envio.
-2. Obter token OAuth para ambiente de teste/homologação e configurar `MELHORENVIO_TOKEN`.
-3. Configurar `MELHORENVIO_FROM_POSTAL_CODE` com o CEP real de expedição.
-4. Testar cotação com CEPs válidos e conferir peso/dimensões cadastrados nas variantes. Sem peso/dimensões, o sistema usa valores provisórios de 1 kg e 20×10×30 cm; atualizar cada produto antes de cobrar frete real.
-5. Contratação de etiquetas, postagem, rastreio e confirmação de entrega ainda exigem ativação e testes adicionais no fluxo operacional Melhor Envio.
 
-## Administrador inicial
-1. Aplicar as migrações D1 `0001_v5_core.sql` e `0002_stock_availability.sql`, depois o seed `database/seeds/0002_import_119_products.sql` uma única vez.
-2. Definir `ADMIN_BOOTSTRAP_TOKEN` como Secret.
-3. Acessar `/admin/`, criar a primeira conta com o token e senha forte.
-4. Remover `ADMIN_BOOTSTRAP_TOKEN` dos secrets após o primeiro administrador ser criado.
+1. Autorizar integração e configurar token de homologação.
+2. Configurar `MELHORENVIO_FROM_POSTAL_CODE` com o CEP real de expedição.
+3. Completar peso e dimensões reais em todas as variantes que serão enviadas.
+4. Testar cotação com CEPs válidos.
+5. A emissão de etiquetas, postagem e rastreamento ainda precisam de fluxo operacional e testes adicionais.
 
-## Limites desta entrega
-- O Checkout Pro inicia o pagamento e o webhook valida a assinatura HMAC antes de consultar o pagamento diretamente na API Mercado Pago.
-- A loja não deve ser liberada em produção até os testes de pagamento, estoque concorrente, frete, dados fiscais, privacidade e notificações serem aprovados.
-- O cálculo Melhor Envio depende de token, CEP de origem e dimensões/peso reais dos produtos.
-- A compra só é habilitada para variantes com estoque disponível; estoque zero permanece visível e indisponível.
+## Superadministrador
+
+Configurar `ADMIN_BOOTSTRAP_TOKEN` no Preview, abrir `/admin/`, criar a conta `comercial@wogcomputer.com.br` com senha forte (mínimo 12 caracteres) e remover o Secret após confirmar o login.
+
+## Banco D1
+
+O `wrangler.toml` liga o banco `wogcomputer-v5-homologacao` apenas ao ambiente `preview`. O banco já existente contém 119 produtos e 172 categorias, segundo a conferência feita pelo usuário. Não reaplicar migrations iniciais nem seeds. Fazer backup e conferir o histórico antes de qualquer alteração.
